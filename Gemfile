@@ -12,6 +12,7 @@ gem 'redis', '~> 4.0'
 gem 'devise'
 gem 'rspotify'
 gem 'pagy'
+gem 'figaro'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
