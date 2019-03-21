@@ -1,5 +1,7 @@
 require 'rspotify'
 class SearchesController < ApplicationController
+  include PagyPaginatable
+
   before_action :authenticate_user!
 
   def index
@@ -27,28 +29,12 @@ class SearchesController < ApplicationController
         user: current_user
       )
     end
-    unless (params[:search] && valid_date?)
-      render json: { error: "Please enter a valid year (1950-2019)", status: :unprocessable_entity }
+
+    unless (params[:search] && valid_date?(params[:search]))      
+      render json: { error: "Please enter a valid year (1950-2019)" }, status: :unprocessable_entity
     else
-      render json: current_user.search_results
-    end
-    @pagy_a, @albums = pagy_array(@albums)
-  end
-
-  def user_searches
-    @searches = Rails.cache.fetch("user-#{User.last.id}-searches", expires_in: 10.minutes) do
-      current_user.search_results
-    end
-
-    if params[:sort] == 'album_name'
-      @searches = @searches.order(:album_name)
-    end
-
-    if params[:album].present?      
-      @searches = @searches.where("album_name LIKE ?", "%#{params[:album]}%")
-    end
-
-    render json: @searches, status: :ok
+      render json: current_user.search_results.where("release_date LIKE ?", "%#{params[:search]}%")
+    end    
   end
 
   def create
@@ -57,15 +43,42 @@ class SearchesController < ApplicationController
     render json: @searches, status: :ok
   end
 
+  def user_searches
+    @search_results = Rails.cache.fetch("user-#{current_user.id}-searches", expires_in: 10.minutes) do
+      current_user.search_results
+    end
+
+    if params[:sort] == 'album_name'
+      @search_results = @search_results.order(:album_name)
+    end
+
+    if params[:album].present?      
+      @search_results = @search_results.where("album_name LIKE ?", "%#{params[:album]}%")
+    end
+
+    if params[:year].present?    
+      @search_results = @search_results.where("release_date LIKE ?", "%#{params[:year]}%")
+    end
+
+    @pagy, @search_results  = pagy(@search_results)
+
+    if (params[:year].present? && !valid_date?(params[:year]))
+      render json: { error: "Please enter a valid year (1950-2019)" }, status: :unprocessable_entity
+    else      
+      render json: @search_results, status: :ok
+    end
+  end
+
   def destroy
-    Search.where(keyword: params[:id]).destroy_all
+    current_user.searches.where(keyword: params[:id]).delete_all
+    current_user.search_results.where("release_date LIKE ?", "%#{params[:id]}%").delete_all
     render json: { status: :ok }
   end
 
   private
 
-  def valid_date?
-    if params[:search].scan(/\D/).empty? and (1950..2020).include?(params[:search].to_i)
+  def valid_date?(year)
+    if year.scan(/\D/).empty? and (1950..2020).include?(year.to_i)
       true
     else
       false
