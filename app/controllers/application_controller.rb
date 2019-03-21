@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::API
   include Pagy::Backend
-  before_action :authenticate_user!
+  protect_from_forgery prepend: true
+  skip_before_action :verify_authenticity_token
 end

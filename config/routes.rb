@@ -1,4 +1,16 @@
 Rails.application.routes.draw do
-  devise_for :users
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  root 'searches#index'
+  get 'user_searches' => 'searches#user_searches'
+  devise_for :users,
+    path: '',
+    path_names: {
+      sign_in: 'login',
+      sign_out: 'logout',
+      registration: 'signup'
+    },
+    controllers: {
+      sessions: 'sessions',
+      registrations: 'registrations'
+    }
+  resources  :searches, only: [:create, :index, :destroy]
 end

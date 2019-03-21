@@ -2,15 +2,6 @@ require_relative 'boot'
 
 require "rails/all"
 require 'rspotify'
-# Pick the frameworks you want:
-require "active_model/railtie"
-require "active_job/railtie"
-require "active_record/railtie"
-require "active_storage/engine"
-require "action_controller/railtie"
-require "action_mailer/railtie"
-require "action_view/railtie"
-require "action_cable/engine"
 
 Bundler.require(*Rails.groups)
 
@@ -19,5 +10,17 @@ module SpotifyBdayApi
     RSpotify::authenticate(ENV["SPOTIFY_CLIENT_ID"], ENV["SPOTIFY_CLIENT_SECRET"])
     config.load_defaults 5.2
     config.api_only = true
+
+    config.middleware.insert_before 0, Rack::Cors do
+      allow do
+        origins '*'
+        resource '*',
+          headers: %w(Authorization),
+          methods: :any,
+          expose: %w(Authorization),
+          max_age: 600
+      end
+    end
+
   end
 end

@@ -10,10 +10,33 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_20_055015) do
+ActiveRecord::Schema.define(version: 2019_03_20_213854) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "jwt_blacklist", force: :cascade do |t|
+    t.string "jti", null: false
+    t.index ["jti"], name: "index_jwt_blacklist_on_jti"
+  end
+
+  create_table "search_results", force: :cascade do |t|
+    t.string "release_date"
+    t.string "album_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "album_url"
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_search_results_on_user_id"
+  end
+
+  create_table "searches", force: :cascade do |t|
+    t.string "keyword"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_searches_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -27,4 +50,6 @@ ActiveRecord::Schema.define(version: 2019_03_20_055015) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "search_results", "users"
+  add_foreign_key "searches", "users"
 end
