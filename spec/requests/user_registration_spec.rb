@@ -23,18 +23,4 @@ RSpec.describe 'POST /signup', type: :request do
     end
   end
 
-  # context 'when user already exists' do
-  #   before do
-  #     build :user, email: params[:user][:email]
-  #     post url, params: params
-  #   end
-
-  #   it 'returns bad request status' do
-  #     expect(response.status).to eq 400
-  #   end
-
-  #   it 'returns validation errors' do
-  #     expect(response.body['errors'].first['title']).to eq('Bad Request')      
-  #   end
-  # end
 end
