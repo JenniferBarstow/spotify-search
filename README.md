@@ -5,12 +5,9 @@ application up and running.
 # Open API Album Search for Spotify by year
 ##### A Ruby on Rails Open API Search that allows an authenticated user to enter a valid year and get a response of Albums released in that year, pulling from Spotifys Web API
 #
-#
 
 ###### Ruby version 2.5
 ###### Rails version 5
-#
-#
 #
 
 ##### Development 
@@ -68,10 +65,12 @@ Filtering and sorting are availale for both the `/user_searches` and `searches`.
 | GET | /user_searches | searches#user_searches| view all of the users search results
 | DELETE | /searches/{YYYY} | searches#delete| delete all searches and search results for provided year
 
+#
 ### Search Response
 
 ##### Example response for: /searches?search=2017
-{
+ ````
+ {
     "search_results": [
         {
             "release_date": "2017-08-25",
@@ -95,7 +94,8 @@ Filtering and sorting are availale for both the `/user_searches` and `searches`.
         }
     ]
 }
-
+````
+#
 
 ### Sorting
 ##### To sort a Users Searches or Search Results
