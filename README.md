@@ -61,7 +61,7 @@ Filtering and sorting are availale for both the `/user_searches` and `searches`.
 
 | Method | Endpoint | Action  | Description |
 | ----- | ------ | ----- | ----------  | 
-| GET | /searches{?search=YYYY}| searches#index |  find or create a search result by year
+| GET | /searches{?year=YYYY}| searches#index |  find or create a search result by year
 | GET | /user_searches | searches#user_searches| view all of the users search results
 | DELETE | /searches/{YYYY} | searches#delete| delete all searches and search results for provided year
 
@@ -103,15 +103,14 @@ Filtering and sorting are availale for both the `/user_searches` and `searches`.
 OPTIONS
 - ###### `/searches?sort=album_name`    ( Sort the most recent search results by album name)
 - ###### `/user_searches?sort=album_name`  ( Sort all of the search results a user has made by album made)
-- ###### `/user_searches?sort=release_date`  ( Sort all of the users search results by release_date)
 
 ### Filtering
 #### 
 
 OPTIONS
-- ###### `/searches?artist=Hello`  ( Filter all of the users saved search results  by artist name)
+- ###### `/searches?album=Hello`  ( Filter all of the users saved search results  by album name)
 - ###### `/user_searches?year=2015`   ( Filter all of the users saved search results by year provided in query)
-- ###### `/user_searches?album_name=Hello`  ( Filter all of the users saved search results  by album name)
+- ###### `/user_searches?album=Hello`  ( Filter all of the users saved search results  by album name)
 
 ### Pagination
 

@@ -9,6 +9,17 @@ RSpec.describe 'Search Spec', type: :request do
   # This will add a valid token for `user` in the `Authorization` header
   let(:auth_headers) { Devise::JWT::TestHelpers.auth_headers(headers, user) }
 
+
+  context 'searches' do
+    before do  
+      get '/searches?year=1998', headers: auth_headers
+    end
+
+    it 'returns 200' do        
+      expect(response).to have_http_status(200)
+    end
+end
+
   context 'user_searches' do
     context 'no filtering' do
       before do  
