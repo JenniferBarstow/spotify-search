@@ -16,6 +16,7 @@ A Rails 6 API with the following features:
   - JSON formatted RESTful API 
   - Filtering Dinosaurs by species name
   - Filtering Dinosaurs by cage name
+  - Data persisted with PostgreSQL
   - Custom validation for making sure Carnivores and herbivore are not in the same cage separation
   - Custom validation for making sure Carnivores are only in a cage with their own Species
   - Setting the diet so that it is in sync with that of it's Species
