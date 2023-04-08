@@ -21,7 +21,8 @@ A Rails 6 API with the following features:
   - Custom validation for making sure Carnivores and herbivore are not in the same cage separation
   - Custom validation for making sure Carnivores are only in a cage with their own Species
   - Setting the diet so that it is in sync with that of it's Species
-  - Unit tests
+  - Custom validation tests
+  - Model method tests
  
     
 
@@ -35,7 +36,7 @@ If you would like to delete the results from a specific year, visit `/searches/{
 Filtering and sorting are availale for both the `/user_searches` and `searches`. See sort and filer options in sections below.
 
 
-### Endpoints
+### Useful Endpoints
 
 | Method | Endpoint | Action  | Description |
 | ----- | ------ | ----- | ----------  | 
@@ -56,43 +57,22 @@ Filtering and sorting are availale for both the `/user_searches` and `searches`.
 
 
 #
-### Search Response
+### Example Responses
 
-##### Example response for: /searches?search=2017
- ````
- {
-    "search_results": [
-        {
-            "release_date": "2017-08-25",
-            "album_name": "17",
-            "album_url": "https://open.spotify.com/album/5VdyJkLe3yvOs0l4xXbWp0"
-        },
-        {
-            "release_date": "2017-06-16",
-            "album_name": "Pretty Girls Like Trap Music",
-            "album_url": "https://open.spotify.com/album/5vvvo79z68vWj9yimoygfS"
-        },
-        {
-            "release_date": "2017-10-20",
-            "album_name": "Flicker (Deluxe)",
-            "album_url": "https://open.spotify.com/album/7ahctQBwcSxDdP0fRAPo2p"
-        },
-        {
-            "release_date": "2017-02-03",
-            "album_name": "I Decided.",
-            "album_url": "https://open.spotify.com/album/0XAIjjN5qxViVS0Y5fYkar"
-        }
-    ]
-}
-````
+##### Example response for: /Api/v1/cages
+
+<img width="376" alt="Screen Shot 2023-04-08 at 5 02 02 PM" src="https://user-images.githubusercontent.com/9825044/230745990-83afad5a-0b98-4a8d-9070-1c18f31873d7.png">
+
 #
 
-### Filtering
-#### 
+##### Example response for: /Api/v1/dinosaurs?species=Tyrannosaurus
 
-OPTIONS
-| GET | /Api/V1/dinosaurs{?species=Tyrannosaurus}| dinosaurs#index |  ( Filter all of the dinosaurs by species name)
-| GET |  /Api/V1/dinosaurs{?cage=Tough Guys}| dinosaurs#index |   ( Filter all of the dinosaurs by cage name)
+#<img width="329" alt="Screen Shot 2023-04-08 at 4 58 30 PM" src="https://user-images.githubusercontent.com/9825044/230746076-fb73ce5a-ef81-4cc1-9a8d-b33fe944b95d.png">
+
+
+### Filtering
+- /Api/V1/dinosaurs{?species=Tyrannosaurus}| dinosaurs#index |  ( Filter all of the dinosaurs by species name)
+- /Api/V1/dinosaurs{?cage=Tough Guys}| dinosaurs#index |   ( Filter all of the dinosaurs by cage name)
 
 
 
@@ -112,16 +92,8 @@ $ rspec/requests/models
 
 ###  Errors
 ###### Example Invalid search query response
-#
 {
     "error": "Please enter a valid species name"
 }
+#
 
-### Database Relationships
-
-| Model | Relaitionship | Associated Model|
-| ----- | ------ | ----- |
-| User | has_many| searches |
-| User | has_many | search_results|
-| Search | belongs_to| user |
-| SearchResult | belongs_to | User|
