@@ -1,7 +1,5 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
 # Jurassic Park Rails 6 API
 ##### A Ruby on Rails Open API Search that allows an authenticated user to enter a valid year and get a response of Albums released in that year, pulling from Spotifys Web API
 #
